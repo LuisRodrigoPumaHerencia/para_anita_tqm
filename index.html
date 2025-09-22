@@ -210,8 +210,9 @@
         
         @media (max-width: 768px) {
             .main-text {
-                font-size: clamp(2rem, 8vw, 3.5rem);
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
                 margin-bottom: 0.5rem;
+                line-height: 1.2;
             }
             
             .subtitle {
@@ -221,6 +222,11 @@
             .dedication {
                 font-size: clamp(0.7rem, 3vw, 1rem);
                 margin-top: 1rem;
+            }
+            
+            .container {
+                padding: 0 20px;
+                max-width: 90%;
             }
         }
         
@@ -507,18 +513,32 @@
                 
                 // Ajustar posición para móvil
                 if (window.innerWidth <= 768) {
-                    welcomeMessage.style.bottom = '50px';
+                    welcomeMessage.style.bottom = '20px';
+                    welcomeMessage.style.left = '10px';
+                    welcomeMessage.style.right = '10px';
+                    welcomeMessage.style.transform = 'none';
+                    welcomeMessage.style.width = 'calc(100% - 20px)';
+                    welcomeMessage.style.fontSize = '14px';
+                    welcomeMessage.style.padding = '12px 20px';
                 }
                 
                 // Efecto hover
                 welcomeMessage.addEventListener('mouseenter', () => {
                     welcomeMessage.style.background = 'rgba(255, 235, 59, 0.2)';
-                    welcomeMessage.style.transform = 'translateX(-50%) scale(1.05)';
+                    if (window.innerWidth <= 768) {
+                        welcomeMessage.style.transform = 'scale(1.02)';
+                    } else {
+                        welcomeMessage.style.transform = 'translateX(-50%) scale(1.05)';
+                    }
                 });
                 
                 welcomeMessage.addEventListener('mouseleave', () => {
                     welcomeMessage.style.background = 'rgba(255, 235, 59, 0.1)';
-                    welcomeMessage.style.transform = 'translateX(-50%) scale(1)';
+                    if (window.innerWidth <= 768) {
+                        welcomeMessage.style.transform = 'scale(1)';
+                    } else {
+                        welcomeMessage.style.transform = 'translateX(-50%) scale(1)';
+                    }
                 });
                 
                 // Al hacer clic, iniciar la música y ocultar el mensaje
@@ -576,12 +596,20 @@
             
             // Efectos hover
             redirectButton.addEventListener('mouseenter', () => {
-                redirectButton.style.transform = 'translateX(-50%) scale(1.05)';
+                if (window.innerWidth <= 768) {
+                    redirectButton.style.transform = 'scale(1.02)';
+                } else {
+                    redirectButton.style.transform = 'translateX(-50%) scale(1.05)';
+                }
                 redirectButton.style.boxShadow = '0 6px 20px rgba(255, 235, 59, 0.5)';
             });
             
             redirectButton.addEventListener('mouseleave', () => {
-                redirectButton.style.transform = 'translateX(-50%) scale(1)';
+                if (window.innerWidth <= 768) {
+                    redirectButton.style.transform = 'scale(1)';
+                } else {
+                    redirectButton.style.transform = 'translateX(-50%) scale(1)';
+                }
                 redirectButton.style.boxShadow = '0 4px 15px rgba(255, 235, 59, 0.3)';
             });
             
@@ -668,16 +696,27 @@
                 }, 2500);
             });
             
+            // Ajustar para móvil
+            if (window.innerWidth <= 768) {
+                redirectButton.style.bottom = '10px';
+                redirectButton.style.left = '10px';
+                redirectButton.style.right = '10px';
+                redirectButton.style.transform = 'none';
+                redirectButton.style.width = 'calc(100% - 20px)';
+                redirectButton.style.fontSize = '14px';
+                redirectButton.style.padding = '10px 20px';
+            }
+            
             // Animación de entrada
             redirectButton.style.opacity = '0';
-            redirectButton.style.transform = 'translateX(-50%) translateY(30px)';
+            redirectButton.style.transform = window.innerWidth <= 768 ? 'translateY(30px)' : 'translateX(-50%) translateY(30px)';
             document.body.appendChild(redirectButton);
             
             // Animar la entrada
             setTimeout(() => {
                 redirectButton.style.transition = 'all 0.8s ease';
                 redirectButton.style.opacity = '1';
-                redirectButton.style.transform = 'translateX(-50%) translateY(0px)';
+                redirectButton.style.transform = window.innerWidth <= 768 ? 'translateY(0px)' : 'translateX(-50%) translateY(0px)';
             }, 100);
         }
         
