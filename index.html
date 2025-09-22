@@ -228,6 +228,36 @@
                 padding: 0 20px;
                 max-width: 90%;
             }
+            
+            /* Asegurar que los botones no se salgan de la pantalla */
+            button {
+                max-width: calc(100vw - 20px);
+                box-sizing: border-box;
+            }
+            
+            /* Mejorar el espaciado en móvil */
+            body {
+                padding-bottom: 100px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-text {
+                font-size: clamp(1.5rem, 8vw, 2rem);
+                letter-spacing: 1px;
+            }
+            
+            .subtitle {
+                font-size: clamp(0.7rem, 4vw, 1rem);
+            }
+            
+            .dedication {
+                font-size: clamp(0.6rem, 3.5vw, 0.9rem);
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
         }
         
         .interactive-area {
@@ -324,12 +354,19 @@
             const indicator = document.createElement('div');
             indicator.style.position = 'fixed';
             indicator.style.top = '20px';
-            indicator.style.right = '20px';
+            indicator.style.right = '80px';
             indicator.style.color = '#ffeb3b';
             indicator.style.fontSize = '24px';
             indicator.style.zIndex = '1000';
             indicator.style.animation = 'musicFloat 3s ease-in-out infinite';
             indicator.innerHTML = '🎵';
+            
+            // Ajustar para móvil
+            if (window.innerWidth <= 768) {
+                indicator.style.top = '15px';
+                indicator.style.right = '70px';
+                indicator.style.fontSize = '20px';
+            }
             
             document.body.appendChild(indicator);
             
@@ -352,7 +389,7 @@
             button.id = 'musicControlBtn';
             button.style.position = 'fixed';
             button.style.top = '20px';
-            button.style.right = '70px';
+            button.style.right = '20px';
             button.style.background = 'rgba(255, 235, 59, 0.2)';
             button.style.border = '2px solid #ffeb3b';
             button.style.borderRadius = '50%';
@@ -368,6 +405,15 @@
             button.style.justifyContent = 'center';
             button.innerHTML = '▶️';
             button.title = 'Reproducir música';
+            
+            // Ajustar para móvil
+            if (window.innerWidth <= 768) {
+                button.style.top = '15px';
+                button.style.right = '15px';
+                button.style.width = '45px';
+                button.style.height = '45px';
+                button.style.fontSize = '18px';
+            }
             
             // Efectos hover
             button.addEventListener('mouseenter', () => {
@@ -464,6 +510,90 @@
         `;
         document.head.appendChild(style);
         
+        // Función para ajustar elementos en redimensionamiento
+        function adjustElementsForScreenSize() {
+            const isMobile = window.innerWidth <= 768;
+            
+            // Ajustar botón de música principal
+            const musicBtn = document.getElementById('musicControlBtn');
+            if (musicBtn) {
+                if (isMobile) {
+                    musicBtn.style.top = '15px';
+                    musicBtn.style.right = '15px';
+                    musicBtn.style.width = '45px';
+                    musicBtn.style.height = '45px';
+                    musicBtn.style.fontSize = '18px';
+                } else {
+                    musicBtn.style.top = '20px';
+                    musicBtn.style.right = '20px';
+                    musicBtn.style.width = '50px';
+                    musicBtn.style.height = '50px';
+                    musicBtn.style.fontSize = '20px';
+                }
+            }
+            
+            // Ajustar indicador de música
+            const musicIndicator = document.querySelector('[style*="musicFloat"]');
+            if (musicIndicator) {
+                if (isMobile) {
+                    musicIndicator.style.top = '15px';
+                    musicIndicator.style.right = '70px';
+                    musicIndicator.style.fontSize = '20px';
+                } else {
+                    musicIndicator.style.top = '20px';
+                    musicIndicator.style.right = '80px';
+                    musicIndicator.style.fontSize = '24px';
+                }
+            }
+            
+            // Ajustar mensaje de bienvenida
+            const welcomeMsg = document.getElementById('welcomeMessage');
+            if (welcomeMsg) {
+                if (isMobile) {
+                    welcomeMsg.style.bottom = '80px';
+                    welcomeMsg.style.left = '10px';
+                    welcomeMsg.style.right = '10px';
+                    welcomeMsg.style.transform = 'none';
+                    welcomeMsg.style.width = 'calc(100% - 20px)';
+                    welcomeMsg.style.fontSize = '14px';
+                    welcomeMsg.style.padding = '12px 20px';
+                } else {
+                    welcomeMsg.style.bottom = '100px';
+                    welcomeMsg.style.left = '50%';
+                    welcomeMsg.style.right = 'auto';
+                    welcomeMsg.style.transform = 'translateX(-50%)';
+                    welcomeMsg.style.width = 'auto';
+                    welcomeMsg.style.fontSize = '16px';
+                    welcomeMsg.style.padding = '15px 25px';
+                }
+            }
+            
+            // Ajustar botón de redirección
+            const redirectBtn = document.getElementById('redirectBtn');
+            if (redirectBtn) {
+                if (isMobile) {
+                    redirectBtn.style.bottom = '20px';
+                    redirectBtn.style.left = '10px';
+                    redirectBtn.style.right = '10px';
+                    redirectBtn.style.transform = 'none';
+                    redirectBtn.style.width = 'calc(100% - 20px)';
+                    redirectBtn.style.fontSize = '14px';
+                    redirectBtn.style.padding = '10px 20px';
+                } else {
+                    redirectBtn.style.bottom = '20px';
+                    redirectBtn.style.left = '50%';
+                    redirectBtn.style.right = 'auto';
+                    redirectBtn.style.transform = 'translateX(-50%)';
+                    redirectBtn.style.width = 'auto';
+                    redirectBtn.style.fontSize = '16px';
+                    redirectBtn.style.padding = '12px 25px';
+                }
+            }
+        }
+        
+        // Listener para redimensionamiento de ventana
+        window.addEventListener('resize', adjustElementsForScreenSize);
+        
         // Iniciar música automáticamente al cargar la página
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -513,7 +643,7 @@
                 
                 // Ajustar posición para móvil
                 if (window.innerWidth <= 768) {
-                    welcomeMessage.style.bottom = '20px';
+                    welcomeMessage.style.bottom = '80px';
                     welcomeMessage.style.left = '10px';
                     welcomeMessage.style.right = '10px';
                     welcomeMessage.style.transform = 'none';
@@ -698,7 +828,7 @@
             
             // Ajustar para móvil
             if (window.innerWidth <= 768) {
-                redirectButton.style.bottom = '10px';
+                redirectButton.style.bottom = '20px';
                 redirectButton.style.left = '10px';
                 redirectButton.style.right = '10px';
                 redirectButton.style.transform = 'none';
@@ -908,6 +1038,15 @@
                 secondPageMusicButton.style.justifyContent = 'center';
                 secondPageMusicButton.innerHTML = '⏸️';
                 secondPageMusicButton.title = 'Pausar música';
+                
+                // Ajustar para móvil
+                if (window.innerWidth <= 768) {
+                    secondPageMusicButton.style.top = '15px';
+                    secondPageMusicButton.style.right = '15px';
+                    secondPageMusicButton.style.width = '45px';
+                    secondPageMusicButton.style.height = '45px';
+                    secondPageMusicButton.style.fontSize = '18px';
+                }
                 
                 // Efectos hover para el botón de la segunda página
                 secondPageMusicButton.addEventListener('mouseenter', () => {
